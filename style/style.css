@@ -143,6 +143,11 @@ main {
     justify-content: space-between;
     margin-bottom: 20px;
 }
+.card-header p {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
 
 .type {
     background-color: #e1f5e9;
@@ -287,13 +292,7 @@ button {
 }
 
 
-@media screen and (max-width: 950px) {
-    .cards {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 750px) {
 
     header {
         flex-direction: column;
