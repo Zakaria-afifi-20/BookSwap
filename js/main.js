@@ -18,10 +18,12 @@ async function chargerDemandes() {
   const resultat = await reponse.json();
   const datatable = resultat.data;
 
+  
   affichage(datatable)
+  changeoffers(datatable)
   actualiser(datatable)
   recherche(datatable)
-  changeoffers(datatable)
+  
 }
 
 function createdate(dateString) {
@@ -75,7 +77,7 @@ function affichage(data) {
   });
   cards.innerHTML = cardsHtml;
 }
-function actualiser (data){
+function actualiser(data) {
   const actualiserbtn = document.getElementById('actualiserBtn')
   actualiserbtn.addEventListener("click", (e) => {
     affichage(data)
@@ -92,15 +94,16 @@ function recherche(data) {
     const nomvalue = nom.value;
     const typechange = document.getElementById('echangetype').value
     const livres = data.filter(livre => livre.book.title === nomvalue)
+    cards.innerHTML = ""
     if (nomvalue === "") {
-      msg.textContent = "Le champ est vide"
+      const exchangetype = data.filter(livre => livre.exchange_type === typechange)
+      affichage(exchangetype)
+      console.log(exchangetype)
+    }
+    if (nomvalue === "" && typechange === "Tous") {
       affichage(data)
     }
-    if (livres.length === 0) {
-      msg.textContent = "Livre introuvable"
-      affichage(data)
-    }
-    else {
+    else if (nomvalue) {
       if (typechange === "Tous") {
         affichage(livres)
       }
@@ -113,8 +116,6 @@ function recherche(data) {
         affichage(permanent)
       }
     }
-
-
   });
 }
 
@@ -130,7 +131,7 @@ function changeoffers(data) {
       const cardFooter = e.currentTarget.closest('.card-footer');
       const divoffer = cardFooter.querySelector('.change');
       console.log(bookid);
-      
+
       if (divoffer.innerHTML.trim() !== '') {
         divoffer.innerHTML = '';
         return;
@@ -140,7 +141,7 @@ function changeoffers(data) {
       divoffer.innerHTML = '';
 
       if (offeraccept && offeraccept.offered_book) {
-         divoffer.innerHTML += `
+        divoffer.innerHTML += `
            <div class="card">
               <div class="books">
                 <div class="book">
@@ -157,7 +158,7 @@ function changeoffers(data) {
          </div>
          `;
       } else {
-         divoffer.innerHTML = `<p>Aucun offer accepter</p>`;
+        divoffer.innerHTML = `<p>Aucun offer accepter</p>`;
       }
     });
   });
